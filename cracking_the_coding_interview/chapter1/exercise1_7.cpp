@@ -9,13 +9,14 @@
 #include <algorithm>
 using namespace std;
 
-using Matrix = vector<vector<int>>
+using Matrix = vector<vector<int>>;
 
+//bool rotate(vector<vector<int> &mat){
 bool rotate(Matrix &mat){
     if (mat.size()!=mat[0].size()) return false;
     int n = mat.size();
     for (int layer=0; layer<n/2; layer++){
-        int first = layser;
+        int first = layer;
         int last = n - 1 - layer;
         for (int i=first; i<last; i++){
             int offset = i - first;
@@ -31,9 +32,21 @@ bool rotate(Matrix &mat){
 
 
 int main(){
-    string str, res;
-    getline(cin, str);
-    res = compress(str);
-    cout << res << endl;
+    int N;
+    cin >> N;
+    //Matrix mat(N, vector<int>(N));
+    vector<vector<int>> mat(N, vector<int>(N));
+    for (int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            cin >> mat[i][j];
+        }
+    }
+    rotate(mat);
+    for (int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            cout << mat[i][j] << " ";
+        }
+        cout << endl;
+    }
     return 0;
 }
