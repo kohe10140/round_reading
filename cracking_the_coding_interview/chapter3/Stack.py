@@ -11,6 +11,7 @@ class Stack:
 
     def __init__(self, values=None):
         self.top = None
+        self.size = 0
         if values is not None:
             for v in values:
                 self.push(v)
@@ -28,10 +29,12 @@ class Stack:
         if self.top is not None:
             t.next = self.top
         self.top = t
+        self.size += 1
     
     def pop(self):
         item = self.top
         self.top = self.top.next
+        self.size -= 1
         return item.value
     
     def peek(self):
@@ -67,3 +70,32 @@ class StackWithMin(Stack):
 
     def min(self):
         return self.min_stack.peek()
+
+
+class SetOfStacks:
+
+    def __init__(self, max_size=100, values=None):
+        self.stack_set = Stack() # type of self.stack_set is stack
+        self.stack_set.push(Stack())
+        self.max_size = max_size
+
+        if values is not None:
+            for v in values:
+                self.push(v)
+
+    def push(self, value):
+        if self.stack_set.top.size > self.max_size:
+            self.stack_set.push(Stack())
+        self.stack_set.top.push(value)
+
+    def pop(self):
+        if self.stack_set.top.size == 0:
+            self.stack_set.pop()
+        self.stack_set.top.pop()
+
+    def popAt(self, index):
+        # the index of top is 0
+        stack = self.stack_set.top
+        for i in range(index):
+            stack = stack.next
+        stack.pop()
