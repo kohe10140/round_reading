@@ -84,18 +84,50 @@ class SetOfStacks:
                 self.push(v)
 
     def push(self, value):
-        if self.stack_set.top.size > self.max_size:
+        if self.stack_set.top.value.size >= self.max_size:
             self.stack_set.push(Stack())
-        self.stack_set.top.push(value)
+        self.stack_set.top.value.push(value)
 
     def pop(self):
-        if self.stack_set.top.size == 0:
+        popped_value = self.stack_set.top.value.pop()
+        if self.stack_set.top.value.size == 0:
             self.stack_set.pop()
-        self.stack_set.top.pop()
+        return popped_value
 
     def popAt(self, index):
         # the index of top is 0
         stack = self.stack_set.top
         for i in range(index):
             stack = stack.next
-        stack.pop()
+        return stack.value.pop()
+
+
+class Myqueue:
+
+    def __init__(self, values=None):
+        self.stack = Stack()
+
+    def add(self, value):
+        self.stack.push(value)
+
+    def remove(self):
+        self.inv_stack = Stack()
+        while self.stack.top is not None:
+            value = self.stack.pop()
+            self.inv_stack.push(value)
+        head = self.inv_stack.pop()
+        while self.inv_stack.top is not None:
+            value = self.inv_stack.pop()
+            self.stack.push(value)
+        return head
+
+    def peek(self):
+        if self.is_empty():
+            return None
+        stack_node = self.stack.top
+        while stack_node.next is not None:
+            stack_node = stack_node.next
+        return stack_node.value
+
+    def is_empty(self):
+        return self.stack.is_empty()
